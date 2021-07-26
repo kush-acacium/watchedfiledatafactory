@@ -12,9 +12,24 @@
 					"name": "MyDataFlow"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
-			"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow"
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nDerivedColumn1 select(mapColumn(\n\t\temail = users,\n\t\tnumber = users,\n\t\tid = users\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nMyDataFlow derive({users.name} = concat(toString(users.firstName), toString(users.lastName))) ~> DerivedColumn1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tusers as (id as string, name as string, number as string, email as string)[]\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 		}
 	}
 }
