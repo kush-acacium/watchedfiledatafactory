@@ -12,7 +12,7 @@
 			},
 			"filePath": {
 				"type": "string",
-				"defaultValue": "@pipeline().parameters.fileName"
+				"defaultValue": "@pipeline().parameters.filePath"
 			}
 		},
 		"annotations": [],
@@ -20,7 +20,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "@dataset().fileName",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
 				"container": "sanitised"
 			}
 		},
