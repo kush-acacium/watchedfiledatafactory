@@ -8,7 +8,7 @@
 		"parameters": {
 			"sourceFileName": {
 				"type": "string",
-				"defaultValue": "@pipeline().parameters.fileName"
+				"defaultValue": "@{pipeline().parameters.fileName}"
 			}
 		},
 		"annotations": [],
