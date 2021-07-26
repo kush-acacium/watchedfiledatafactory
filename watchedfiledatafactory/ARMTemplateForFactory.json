@@ -58,7 +58,7 @@
 					}
 				],
 				"parameters": {
-					"FileName": {
+					"fileName": {
 						"type": "string",
 						"defaultValue": "@pipeline().parameters.fileName"
 					}
