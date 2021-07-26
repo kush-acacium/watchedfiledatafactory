@@ -1,0 +1,12 @@
+{
+	"name": "watchedfiledatafactory",
+	"properties": {
+		"globalParameters": {
+			"soureFile": {
+				"type": "string",
+				"value": "@triggerBody.fileName"
+			}
+		}
+	},
+	"location": "ukwest"
+}
