@@ -20,7 +20,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"sourceFileName": {
-								"value": "'@{pipeline().parameters.fileName}'",
+								"value": "'@{pipeline().parameters.sourceFileName}'",
 								"type": "Expression"
 							}
 						},
@@ -41,7 +41,7 @@
 		"parameters": {
 			"sourceFileName": {
 				"type": "string",
-				"defaultValue": "@{dataSet.fileName}"
+				"defaultValue": "@dataSet.sdfsdfs"
 			}
 		},
 		"annotations": []
