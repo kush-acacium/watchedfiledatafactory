@@ -6,22 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "watchedfiledatafactory"
-		},
-		"watchedfileblobstorage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
-			"type": "string",
-			"defaultValue": "@triggerBody().folderPath"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
 		}
 	},
 	"variables": {
@@ -50,7 +34,6 @@
 							"dataflow": {
 								"referenceName": "dataflow1",
 								"type": "DataFlowReference",
-								"parameters": {},
 								"datasetParameters": {
 									"MyDataFlow": {
 										"fileName": "@pipeline().parameters.fileName",
@@ -62,7 +45,6 @@
 									}
 								}
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -85,66 +67,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/InputDataSet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "watchedfileblobstorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileName": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.fileName"
-					},
-					"filePath": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.filePath"
-					}
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "files"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"users": {
-							"type": "array",
-							"items": {
-								"type": "object",
-								"properties": {
-									"userId": {
-										"type": "integer"
-									},
-									"firstName": {
-										"type": "string"
-									},
-									"lastName": {
-										"type": "string"
-									},
-									"phoneNumber": {
-										"type": "string"
-									},
-									"emailAddress": {
-										"type": "string"
-									}
-								}
-							}
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/watchedfileblobstorage')]"
 			]
 		},
 		{
@@ -180,56 +102,7 @@
 				},
 				"schema": {}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/watchedfileblobstorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/watchedfileblobstorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('watchedfileblobstorage_connectionString')]"
-				}
-			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blobtrigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "watchedfilepipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"filePath": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_filePath')]",
-							"fileName": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_fileName')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/files/blobs/",
-					"blobPathEndsWith": ".json",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blobtrigger_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/watchedfilepipeline')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
@@ -261,7 +134,6 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/InputDataSet')]",
 				"[concat(variables('factoryId'), '/datasets/OutputDataSet')]"
 			]
 		}

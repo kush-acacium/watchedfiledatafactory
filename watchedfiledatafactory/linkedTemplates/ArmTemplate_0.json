@@ -117,7 +117,7 @@
 					},
 					"filePath": {
 						"type": "string",
-						"defaultValue": "@pipeline().parameters.fileName"
+						"defaultValue": "@pipeline().parameters.filePath"
 					}
 				},
 				"annotations": [],
@@ -125,7 +125,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "@dataset().fileName",
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
 						"container": "sanitised"
 					}
 				},
@@ -161,7 +164,7 @@
 						}
 					],
 					"transformations": [],
-					"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+					"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument',\n\twildcardPaths:['$fileName']) ~> MyDataFlow\nMyDataFlow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['@dataflow().fileName'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 				}
 			},
 			"dependsOn": [
@@ -193,8 +196,14 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"MyDataFlow": {},
-									"sink1": {}
+									"MyDataFlow": {
+										"fileName": "@pipeline().parameters.fileName",
+										"filePath": "@pipeline().parameters.filePath"
+									},
+									"sink1": {
+										"fileName": "@pipeline().parameters.fileName",
+										"filePath": "@pipeline().parameters.filePath"
+									}
 								}
 							},
 							"staging": {},
