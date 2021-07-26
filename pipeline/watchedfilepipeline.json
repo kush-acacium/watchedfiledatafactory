@@ -20,7 +20,7 @@
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"MyDataFlow": {
-								"sourceFileName": "@pipeline().parameters.fileName"
+								"fileName": "@pipeline().parameters.fileName"
 							}
 						}
 					},
@@ -32,12 +32,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"sourceFileName": {
-				"type": "string",
-				"defaultValue": "@{dataSet().sourceFileName}"
-			}
-		},
 		"annotations": []
 	}
 }

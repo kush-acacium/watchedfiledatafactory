@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"sourceFileName": {
+			"fileName": {
 				"type": "string",
 				"defaultValue": "@{pipeline().parameters.fileName}"
 			}
