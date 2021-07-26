@@ -1,5 +1,5 @@
 {
-	"name": "InputDataFlow",
+	"name": "InputDataSet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "watchedfileblobstorage",
