@@ -18,12 +18,6 @@
 					"dataflow": {
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference",
-						"parameters": {
-							"sourceFileName": {
-								"value": "'@{pipeline().parameters.sourceFileName}'",
-								"type": "Expression"
-							}
-						},
 						"datasetParameters": {
 							"MyDataFlow": {
 								"fileName": "@pipeline().parameters.fileName"
@@ -38,12 +32,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"sourceFileName": {
-				"type": "string",
-				"defaultValue": "@dataSet.sdfsdfs"
-			}
-		},
 		"annotations": []
 	}
 }
