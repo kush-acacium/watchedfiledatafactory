@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
 		},
+		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
@@ -44,6 +52,12 @@
 					},
 					"watchedfileblobstorage_connectionString": {
 						"value": "[parameters('watchedfileblobstorage_connectionString')]"
+					},
+					"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
+						"value": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_filePath')]"
+					},
+					"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
+						"value": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_fileName')]"
 					},
 					"blobtrigger_properties_typeProperties_scope": {
 						"value": "[parameters('blobtrigger_properties_typeProperties_scope')]"

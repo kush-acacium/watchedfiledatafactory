@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
 		},
+		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
@@ -41,6 +49,16 @@
 				"linkedServiceName": {
 					"referenceName": "watchedfileblobstorage",
 					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.fileName"
+					},
+					"filePath": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.filePath"
+					}
 				},
 				"annotations": [],
 				"type": "Json",
@@ -92,11 +110,22 @@
 					"referenceName": "watchedfileblobstorage",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"fileName": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.fileName"
+					},
+					"filePath": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.fileName"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "@dataset().fileName",
 						"container": "sanitised"
 					}
 				},
@@ -128,11 +157,11 @@
 								"referenceName": "OutputDataSet",
 								"type": "DatasetReference"
 							},
-							"name": "OutputToBlobStore"
+							"name": "sink1"
 						}
 					],
 					"transformations": [],
-					"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['test.json'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> OutputToBlobStore"
+					"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
 			"dependsOn": [
@@ -165,7 +194,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"MyDataFlow": {},
-									"OutputToBlobStore": {}
+									"sink1": {}
 								}
 							},
 							"staging": {},
@@ -206,7 +235,10 @@
 							"referenceName": "watchedfilepipeline",
 							"type": "PipelineReference"
 						},
-						"parameters": {}
+						"parameters": {
+							"filePath": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_filePath')]",
+							"fileName": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_fileName')]"
+						}
 					}
 				],
 				"type": "BlobEventsTrigger",

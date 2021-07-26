@@ -6,81 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "watchedfiledatafactory"
-		},
-		"watchedfileblobstorage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
-			"type": "string",
-			"defaultValue": "@triggerBody().folderPath"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
-		"blobtrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/watchedfilepipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dataflow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"MyDataFlow": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"parameters": {
-					"filePath": {
-						"type": "string",
-						"defaultValue": "@triggerBody().folderPath"
-					},
-					"fileName": {
-						"type": "string",
-						"defaultValue": "@triggerBody().fileName"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/InputDataSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -137,9 +68,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/watchedfileblobstorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/OutputDataSet')]",
@@ -170,21 +99,6 @@
 					}
 				},
 				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/watchedfileblobstorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/watchedfileblobstorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('watchedfileblobstorage_connectionString')]"
-				}
 			},
 			"dependsOn": []
 		},
@@ -236,8 +150,8 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"filePath": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_filePath')]",
-							"fileName": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_fileName')]"
+							"filePath": "@triggerBody().folderPath",
+							"fileName": "@triggerBody().fileName"
 						}
 					}
 				],
@@ -246,15 +160,13 @@
 					"blobPathBeginsWith": "/files/blobs/",
 					"blobPathEndsWith": ".json",
 					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blobtrigger_properties_typeProperties_scope')]",
+					"scope": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/watchedfilepipeline')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
