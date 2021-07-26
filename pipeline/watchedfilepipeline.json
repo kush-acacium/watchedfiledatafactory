@@ -17,7 +17,17 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow1",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"MyDataFlow": {
+								"fileName": "@pipeline().parameters.fileName",
+								"filePath": "@pipeline().parameters.filePath"
+							},
+							"sink1": {
+								"fileName": "@pipeline().parameters.fileName",
+								"filePath": "@pipeline().parameters.filePath"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
