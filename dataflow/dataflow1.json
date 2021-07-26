@@ -21,12 +21,8 @@
 					"name": "sink1"
 				}
 			],
-			"transformations": [
-				{
-					"name": "DerivedColumn1"
-				}
-			],
-			"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow derive(sourceFileName = 'ReportingExtract_' + toString(currentDate()) + '.json') ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\trowUrlColumn:'filename',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+			"transformations": [],
+			"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['work.json'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 		}
 	}
 }
