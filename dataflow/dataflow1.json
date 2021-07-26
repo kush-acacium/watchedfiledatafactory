@@ -26,7 +26,7 @@
 					"name": "Select1"
 				}
 			],
-			"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow select(mapColumn(\n\t\temail = users,\n\t\tnumber = users,\n\t\tid = users\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:[''],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
+			"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow\nMyDataFlow select(mapColumn(\n\t\t{users[1].email} = users,\n\t\t{users[1].number} = users,\n\t\t{users[1].id} = users\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:[''],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 		}
 	}
 }
