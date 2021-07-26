@@ -5,6 +5,12 @@
 			"referenceName": "watchedfileblobstorage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"sourceFileName": {
+				"type": "string",
+				"defaultValue": "@pipeline().parameters.fileName"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
