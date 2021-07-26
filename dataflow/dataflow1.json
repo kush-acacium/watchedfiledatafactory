@@ -14,7 +14,7 @@
 			],
 			"sinks": [],
 			"transformations": [],
-			"script": "source(output(\n\t\tusers as (userId as string, firstName as string, lastName as string, phoneNumber as string, emailAddress as string)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow"
+			"script": "source(output(\n\t\tusers as (emailAddress as string, firstName as string, lastName as string, phoneNumber as integer, userId as short)[]\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'singleDocument') ~> MyDataFlow"
 		}
 	}
 }

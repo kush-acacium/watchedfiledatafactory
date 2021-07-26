@@ -1,0 +1,42 @@
+{
+	"name": "OutputDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "watchedfileblobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "sanitised"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"users": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "integer"
+							},
+							"name": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"email": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
