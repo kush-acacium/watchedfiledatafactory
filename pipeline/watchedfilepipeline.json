@@ -3,18 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Wait1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"name": "dataflow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
 				"policy": {
-					"timeout": "7.00:00:00",
+					"timeout": "1.00:00:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
@@ -22,33 +15,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "JsonSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "JsonReadSettings"
-						}
+					"dataflow": {
+						"referenceName": "dataflow1",
+						"type": "DataFlowReference"
 					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "InputDataSet",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Wait1",
-				"type": "Wait",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
