@@ -19,7 +19,10 @@
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference",
 						"parameters": {
-							"sourceFileName": "@{dataset().MyParameterName}"
+							"sourceFileName": {
+								"value": "'@{pipeline().parameters.fileName}'",
+								"type": "Expression"
+							}
 						},
 						"datasetParameters": {
 							"MyDataFlow": {
