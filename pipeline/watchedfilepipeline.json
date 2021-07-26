@@ -32,6 +32,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"sourceFileName": {
+				"type": "string",
+				"defaultValue": "@{dataSet().sourceFileName}"
+			}
+		},
 		"annotations": []
 	}
 }

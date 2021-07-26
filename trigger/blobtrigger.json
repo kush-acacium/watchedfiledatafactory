@@ -8,10 +8,6 @@
 				"pipelineReference": {
 					"referenceName": "watchedfilepipeline",
 					"type": "PipelineReference"
-				},
-				"parameters": {
-					"filePath": "@triggerBody().folderPath",
-					"fileName": "@triggerBody().fileName"
 				}
 			}
 		],
