@@ -11,14 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
 		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
-			"type": "string",
-			"defaultValue": "@triggerBody().folderPath"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
@@ -49,16 +41,6 @@
 				"linkedServiceName": {
 					"referenceName": "watchedfileblobstorage",
 					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileName": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.fileName"
-					},
-					"filePath": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.filePath"
-					}
 				},
 				"annotations": [],
 				"type": "Json",
@@ -110,25 +92,11 @@
 					"referenceName": "watchedfileblobstorage",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"fileName": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.fileName"
-					},
-					"filePath": {
-						"type": "string",
-						"defaultValue": "@pipeline().parameters.filePath"
-					}
-				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().fileName",
-							"type": "Expression"
-						},
 						"container": "sanitised"
 					}
 				},
@@ -200,14 +168,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"MyDataFlow": {
-										"fileName": "@pipeline().parameters.fileName",
-										"filePath": "@pipeline().parameters.filePath"
-									},
-									"sink1": {
-										"fileName": "@pipeline().parameters.fileName",
-										"filePath": "@pipeline().parameters.filePath"
-									}
+									"MyDataFlow": {},
+									"sink1": {}
 								}
 							},
 							"staging": {},
@@ -219,16 +181,6 @@
 						}
 					}
 				],
-				"parameters": {
-					"filePath": {
-						"type": "string",
-						"defaultValue": "@triggerBody().folderPath"
-					},
-					"fileName": {
-						"type": "string",
-						"defaultValue": "@triggerBody().fileName"
-					}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -248,10 +200,7 @@
 							"referenceName": "watchedfilepipeline",
 							"type": "PipelineReference"
 						},
-						"parameters": {
-							"filePath": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_filePath')]",
-							"fileName": "[parameters('blobtrigger_properties_watchedfilepipeline_parameters_fileName')]"
-						}
+						"parameters": {}
 					}
 				],
 				"type": "BlobEventsTrigger",

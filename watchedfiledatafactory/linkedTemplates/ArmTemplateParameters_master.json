@@ -8,12 +8,6 @@
 		"watchedfileblobstorage_connectionString": {
 			"value": ""
 		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_filePath": {
-			"value": "@triggerBody().folderPath"
-		},
-		"blobtrigger_properties_watchedfilepipeline_parameters_fileName": {
-			"value": "@triggerBody().fileName"
-		},
 		"blobtrigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/bedd0d36-7db3-46fa-bc25-ec1191ad4fe2/resourceGroups/playground/providers/Microsoft.Storage/storageAccounts/watchedfiles"
 		},
