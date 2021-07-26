@@ -1,6 +1,16 @@
 {
 	"name": "watchedfilepipeline",
 	"properties": {
+		"parameters": {
+			"filePath": {
+				"type": "string",
+				"defaultValue": "@triggerBody().folderPath"
+			},
+			"fileName": {
+				"type": "string",
+				"defaultValue": "@triggerBody().fileName"
+			}
+		},
 		"annotations": []
 	}
 }
