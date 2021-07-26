@@ -39,7 +39,7 @@
 			}
 		],
 		"parameters": {
-			"fileName": {
+			"sourceFileName": {
 				"type": "string",
 				"defaultValue": "@{dataSet.fileName}"
 			}
