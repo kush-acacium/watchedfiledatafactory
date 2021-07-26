@@ -177,6 +177,12 @@
 						}
 					}
 				],
+				"parameters": {
+					"FileName": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.fileName"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
