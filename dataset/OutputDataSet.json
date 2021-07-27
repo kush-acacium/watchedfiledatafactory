@@ -13,30 +13,6 @@
 				"container": "sanitised"
 			}
 		},
-		"schema": {
-			"type": "object",
-			"properties": {
-				"users": {
-					"type": "array",
-					"items": {
-						"type": "object",
-						"properties": {
-							"id": {
-								"type": "integer"
-							},
-							"name": {
-								"type": "string"
-							},
-							"number": {
-								"type": "string"
-							},
-							"email": {
-								"type": "string"
-							}
-						}
-					}
-				}
-			}
-		}
+		"schema": {}
 	}
 }
