@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "watchedfiledatafactory"
 		},
+		"AzureBlobFS1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobFS1'"
+		},
 		"watchedfileblobstorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'watchedfileblobstorage'"
@@ -41,6 +45,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobFS1_connectionString": {
+						"value": "[parameters('AzureBlobFS1_connectionString')]"
 					},
 					"watchedfileblobstorage_connectionString": {
 						"value": "[parameters('watchedfileblobstorage_connectionString')]"

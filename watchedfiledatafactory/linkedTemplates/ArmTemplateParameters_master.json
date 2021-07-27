@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "watchedfiledatafactory"
 		},
+		"AzureBlobFS1_connectionString": {
+			"value": ""
+		},
 		"watchedfileblobstorage_connectionString": {
 			"value": ""
 		},
