@@ -31,6 +31,10 @@
 			"fileName": {
 				"type": "string",
 				"defaultValue": "@pipeline().parameters.fileName"
+			},
+			"sourceFileName": {
+				"type": "string",
+				"defaultValue": "'ReportingExtract_' + toString(currentDate()) + ' ' + toString(random(4)) + '.json'"
 			}
 		},
 		"annotations": []
