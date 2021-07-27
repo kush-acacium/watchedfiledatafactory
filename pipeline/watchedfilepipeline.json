@@ -17,10 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow1",
-						"type": "DataFlowReference",
-						"parameters": {
-							"sourceFileName": "@pipeline().parameters.sourceFileName"
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
