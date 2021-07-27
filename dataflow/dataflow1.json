@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"linkedService": {
-						"referenceName": "AzureBlobFS1",
+						"referenceName": "watchedfileblobstorage",
 						"type": "LinkedServiceReference"
 					},
 					"name": "sink2"
